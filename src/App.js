@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import Navbar from "./components/views/Navbar";
-import AddAsset from "./components/views/AssetsPage";
+import AssetsPage from "./components/views/AssetsPage";
 
 import MetamaskContext from "./context/metamask";
 
@@ -14,10 +14,10 @@ function App() {
       {
         metamaskContext.isMetamaskConnected
           ? (
-            <AddAsset />
+            <AssetsPage />
           )
           : (
-            <div />
+            <AssetsPage />
           )
       }
     </div>

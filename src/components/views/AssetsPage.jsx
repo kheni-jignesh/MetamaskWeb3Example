@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import AssetForm from "../AssetForm";
+import AddAsset from "../AddAsset";
 
 import {
     getAllCollections
 } from "../../controllers/assetController";
+import AddCollection from "../AddCollection";
 
-export default function AddAsset() {
+export default function AssetsPage() {
     const [collections, setCollections] = useState([]);
 
     const [showAddAsset, setShowAddAsset] = useState(false);
@@ -37,10 +38,10 @@ export default function AddAsset() {
             ))}
 
             <button onClick={hAddCollection}>{showAddCollection ? "Close modal" : "Add Collection"}</button>
-            {showAddCollection && <p>Add Collection</p>}
+            {showAddCollection && <AddCollection />}
 
             <button onClick={hAddAsset}>{showAddAsset ? "Close modal" : "Add Asset"}</button>
-            {showAddAsset && <AssetForm />}
+            {showAddAsset && <AddAsset />}
         </>
     );
 }

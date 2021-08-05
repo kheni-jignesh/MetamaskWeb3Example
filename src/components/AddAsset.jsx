@@ -31,28 +31,28 @@ export default function AssetForm() {
 
     return (
         <>
-            <AssetField name="NFT ID" value={formData.nftId} handler={handlers.nftId} />
-            <AssetField name="Creator ID" value={formData.creatorId} handler={handlers.creatorId} />
-            <AssetField name="Collection ID" value={formData.collectionId} handler={handlers.collectionId} />
-            <AssetField name="Category ID 1" value={formData.categoryId1} handler={handlers.categoryId1} />
-            <AssetField name="Category ID 2" value={formData.categoryId2} handler={handlers.categoryId2} />
-            <AssetField name="Category ID 3" value={formData.categoryId3} handler={handlers.categoryId3} />
-            <AssetField name="Type" value={formData.type} handler={handlers.type} />
-            <AssetField name="Number of Copies" value={formData.numberOfCopies} handler={handlers.numberOfCopies} />
-            <AssetField name="Title" value={formData.title} handler={handlers.title} />
-            <AssetField name="Description" value={formData.description} handler={handlers.description} />
-            <AssetField name="Royalty" value={formData.royalty} handler={handlers.royalty} />
+            <AssetField name="NFT ID" type="number" value={formData.nftId} handler={handlers.nftId} />
+            <AssetField name="Creator ID" type="number" value={formData.creatorId} handler={handlers.creatorId} />
+            <AssetField name="Collection ID" type="number" value={formData.collectionId} handler={handlers.collectionId} />
+            <AssetField name="Category ID 1" type="number" value={formData.categoryId1} handler={handlers.categoryId1} />
+            <AssetField name="Category ID 2" type="number" value={formData.categoryId2} handler={handlers.categoryId2} />
+            <AssetField name="Category ID 3" type="number" value={formData.categoryId3} handler={handlers.categoryId3} />
+            <AssetField name="Type" type="text" value={formData.type} handler={handlers.type} />
+            <AssetField name="Number of Copies" type="number" value={formData.numberOfCopies} handler={handlers.numberOfCopies} />
+            <AssetField name="Title" type="text" value={formData.title} handler={handlers.title} />
+            <AssetField name="Description" type="text" value={formData.description} handler={handlers.description} />
+            <AssetField name="Royalty" type="number" value={formData.royalty} handler={handlers.royalty} />
             <button>Create Asset</button>
         </>
     )
 }
 
-function AssetField({ name, value, handler }) {
+function AssetField({ name, value, handler, type }) {
     return (
         <div>
             <label htmlFor={name}>{name}</label>
             <br />
-            <input name={name} type={typeof value} value={value} onChange={handler} />
+            <input name={name} type={type} value={value} onChange={handler} />
         </div>
     )
 }
