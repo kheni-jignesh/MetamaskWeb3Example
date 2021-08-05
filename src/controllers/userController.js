@@ -1,24 +1,21 @@
+import axios from "axios";
+
 const baseUrl = "http://104.248.138.246:8085";
 
 /**
  * 
  * @param {string} walletAddress 
- * @returns {Promise<any>} userId
+ * @returns {Promise<string | null>} userId
  */
 export async function getUserByWalletAddress(walletAddress) {
-    const data = { walletAddress }
-    const response = await fetch(
-        baseUrl + "/getUserByWalletAddress",
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-    );
+    const data = { walletAddress: walletAddress }
 
-    return response.json();
+    const response = await axios.get('/getUserIdByWalletAddress', {
+        baseURL: baseUrl,
+        data: data
+    });
+
+    return response;
 }
 
 /**
@@ -27,14 +24,11 @@ export async function getUserByWalletAddress(walletAddress) {
  * @returns {Promise<any>} userDetails
  */
 export async function getUserById(id) {
-    const response = await fetch(
-        baseUrl + "/getUserById/" + id,
-        {
-            method: 'GET'
-        }
-    );
+    const response = await axios.get('/getUserById' + id, {
+        baseURL: baseUrl
+    });
 
-    return response.json();
+    return response;
 }
 
 /**
@@ -44,16 +38,10 @@ export async function getUserById(id) {
  */
 export async function addUser(walletAddress) {
     const data = { walletAddress };
-    const response = await fetch(
-        baseUrl + "/addUser",
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        }
-    );
 
-    return response.json();
+    const response = await axios.post('/addUser', data, {
+        baseURL: baseUrl
+    });
+
+    return response;
 }

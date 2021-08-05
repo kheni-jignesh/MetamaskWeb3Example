@@ -17,7 +17,7 @@ function App() {
             <AssetsPage />
           )
           : (
-            <AssetsPage />
+            <div />
           )
       }
     </div>

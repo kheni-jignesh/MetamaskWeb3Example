@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseUrl = "http://104.248.138.246:8085";
 
 /**
@@ -20,16 +22,10 @@ const baseUrl = "http://104.248.138.246:8085";
  */
 export async function addAsset(assetDetails) {
     const data = assetDetails;
-    const response = await fetch(
-        baseUrl + '/addAsset',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-    );
+
+    const response = await axios.post('/addAsset', data, {
+        baseURL: baseUrl
+    });
 
     return response.json();
 }
@@ -46,16 +42,10 @@ export async function addAsset(assetDetails) {
  */
 export async function addCollection(collectionDetails) {
     const data = collectionDetails;
-    const response = await fetch(
-        baseUrl + '/addCollection',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-    );
+
+    const response = await axios.post('/addCollection', data, {
+        baseURL: baseUrl,
+    });
 
     return response.json();
 }
@@ -72,12 +62,9 @@ export async function addCollection(collectionDetails) {
  * }]>} Details of all collections
  */
 export async function getAllCollections() {
-    const response = await fetch(
-        baseUrl + '/getAllCollections',
-        {
-            method: 'GET'
-        }
-    );
+    const response = await axios.get('/getAllCollections', {
+        baseURL: baseUrl
+    });
 
     return response.json();
 }
@@ -118,12 +105,9 @@ export async function getAllCollections() {
  * }]>} all assets
  */
 export async function getAllAssets() {
-    const response = await fetch(
-        baseUrl + '/getAllAssets',
-        {
-            method: 'GET'
-        }
-    );
+    const response = await axios.get('/getAllAssets', {
+        baseURL: baseUrl
+    });
 
     return response.json();
 }
@@ -138,12 +122,9 @@ export async function getAllAssets() {
  * }]>}
  */
 export async function getOnSaleAssets() {
-    const response = await fetch(
-        baseUrl + '/getAllOnSaleAssets',
-        {
-            method: 'GET'
-        }
-    );
+    const response = await axios.get('/getAllOnSaleAssets', {
+        baseURL: baseUrl
+    })
 
     return response.json();
 }

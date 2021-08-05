@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AddAsset from "../AddAsset";
 
 import {
-    getAllCollections
+    getAllCollections, getOnSaleAssets
 } from "../../controllers/assetController";
 import AddCollection from "../AddCollection";
 
@@ -25,19 +25,28 @@ export default function AssetsPage() {
             /* Reject */
             (error) => {
                 console.log(error);
-            });
+            }
+        );
+
+        getOnSaleAssets().then(
+            (result) => {
+                setAssets(result);
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     }, []);
 
     return (
         <>
-            <h3>Collections: </h3>
+            <h2>Collections: </h2>
             {
                 collections.length > 0
                     ? collections.map((collection) => (
                         <div key={collection.collectionId}>
-                            <p>ID: {collection.collectionId}</p>
-                            <h3>Name: {collection.collectionName}</h3>
-                            <p>Description: {collection.description}</p>
+                            <h3>[{collection.collectionId}] {collection.collectionName}</h3>
+                            <small>{collection.description}</small>
                         </div>
                     ))
                     : (
@@ -47,18 +56,23 @@ export default function AssetsPage() {
                     )
             }
 
-            <h3>Assets: </h3>
+            <h2>Assets On Sale: </h2>
             {
                 assets.length > 0
-                    ? (
-                        <p>Assets</p>
-                    )
+                    ? assets.map((asset) => (
+                        <div key={asset.assetId}>
+                            <h3>[{asset.assetId}] {asset.title}</h3>
+                            <small>{asset.previewLink}</small>
+                        </div>
+                    ))
                     : (
                         <div>
                             <p>None</p>
                         </div>
                     )
             }
+
+            <br />
 
             <button onClick={hAddCollection}>{showAddCollection ? "Close Modal" : "Add Collection"}</button>
             {showAddCollection && <AddCollection />}

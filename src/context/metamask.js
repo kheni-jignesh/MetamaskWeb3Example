@@ -11,6 +11,7 @@ const checkDbForUser = async (walletAddress) => {
     let userId;
 
     const userCheckResult = await getUserByWalletAddress(walletAddress);
+    console.log(userCheckResult.status);
 
     if (userCheckResult.status === "200") {
         userId = userCheckResult.userId;
