@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import Web3 from 'web3';
 
-import * as mockDB from "./mock/mockUserIdDatabase";
+import {
+    addUser, getUserById, getUserByWalletAddress
+} from "../controllers/userController";
 
 const prefNetwork = { id: 4, name: "Rinkeby" };
 
-const checkDbForUserId = (userAddress) => {
-    if (mockDB.checkUserAddress(userAddress)) {
-        return mockDB.getExistingId(userAddress);
+const checkDbForUser = async (walletAddress) => {
+    let userId;
+
+    const userCheckResult = await getUserByWalletAddress(walletAddress);
+
+    if (userCheckResult.status === "200") {
+        userId = userCheckResult.userId;
+    } else {
+        userId = await addUser(walletAddress);
     }
 
-    return mockDB.getNewUserId(userAddress);
+    return await getUserById(userId);
 }
 
 
@@ -25,7 +33,7 @@ const MetamaskContext = React.createContext();
 function MetamaskProvider(props) {
     const [account, setAccount] = useState("");
     const [balance, setBalance] = useState("");
-    const [userId, setUserId] = useState("");
+    const [user, setUser] = useState("");
     const [isMetamaskConnected, setMetamaskConnected] = useState(false);
     let accounts = "";
     let _balance = "";
@@ -47,7 +55,7 @@ function MetamaskProvider(props) {
                         setAccount(accounts[0]);
                         _balance = web3.utils.toWei(String(await web3.eth.getBalance(accounts[0])), "wei");
 
-                        setUserId(checkDbForUserId(accounts[0]));
+                        setUser(await checkDbForUser(accounts[0]));
 
                         setBalance(_balance);
                         setMetamaskConnected(true);
@@ -70,7 +78,7 @@ function MetamaskProvider(props) {
     }
 
     return (
-        <MetamaskContext.Provider value={{ account, balance, userId, isMetamaskConnected, connect }}>
+        <MetamaskContext.Provider value={{ account, balance, user, isMetamaskConnected, connect }}>
             {props.children}
         </MetamaskContext.Provider>
     )

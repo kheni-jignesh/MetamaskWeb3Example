@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-import { MetamaskProvider } from "./metamask";
+import { MetamaskProvider } from "./context/metamask";
 
 ReactDOM.render(
   <React.StrictMode>

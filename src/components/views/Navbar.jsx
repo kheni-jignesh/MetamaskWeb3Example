@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { fmtBalance } from "./web3Utils";
+import { fmtBalance } from "../../utils/web3Utils";
 
-import MetamaskContext from "./metamask";
+import MetamaskContext from "../../context/metamask";
 
 export default function Navbar() {
     const metamaskContext = useContext(MetamaskContext);
