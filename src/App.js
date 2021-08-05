@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import Navbar from "./components/views/Navbar";
-import AddAsset from "./components/views/AddAsset";
+import AddAsset from "./components/views/AssetsPage";
 
 import MetamaskContext from "./context/metamask";
 
