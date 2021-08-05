@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { addAsset } from "../controllers/assetController";
+
 /**
  * 
  * @dev Şu an sadece test amaçlı bu şekilde,
@@ -33,8 +35,16 @@ export default function AssetForm() {
 
     const handleFormData = (fx) => (e) => fx(e.target.value);
 
+    const resolveAddAsset = async () => {
+        await addAsset({
+            nftId, creatorId, collectionId, categoryId1, categoryId2, categoryId3,
+            type, numberOfCopies, title, description, royalty
+        });
+        console.log("[DEBUG]", "resolveAddAsset called");
+    };
+
     return (
-        <>
+        <div style={{ marginTop: "10px", marginBottom: "10px" }}>
             <AssetField name="NFT ID"
                 type="number"
                 value={nftId}
@@ -90,14 +100,14 @@ export default function AssetForm() {
                 value={royalty}
                 handler={handleFormData(setRoyalty)} />
 
-            <button>Create Asset</button>
-        </>
+            <button onClick={resolveAddAsset}>Create Asset</button>
+        </div>
     )
 }
 
 function AssetField({ name, value, handler, type }) {
     return (
-        <div>
+        <div style={{ margin: "10px" }}>
             <label htmlFor={name}>{name}</label>
             <br />
             <input name={name} type={type} value={value} onChange={handler} />

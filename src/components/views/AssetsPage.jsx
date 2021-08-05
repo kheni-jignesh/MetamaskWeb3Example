@@ -37,10 +37,10 @@ export default function AssetsPage() {
                 </div>
             ))}
 
-            <button onClick={hAddCollection}>{showAddCollection ? "Close modal" : "Add Collection"}</button>
+            <button onClick={hAddCollection}>{showAddCollection ? "Close Modal" : "Add Collection"}</button>
             {showAddCollection && <AddCollection />}
 
-            <button onClick={hAddAsset}>{showAddAsset ? "Close modal" : "Add Asset"}</button>
+            <button onClick={hAddAsset}>{showAddAsset ? "Close Modal" : "Add Asset"}</button>
             {showAddAsset && <AddAsset />}
         </>
     );
