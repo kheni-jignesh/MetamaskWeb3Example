@@ -7,19 +7,35 @@ import {
 
 const prefNetwork = { id: 4, name: "Rinkeby" };
 
+/**
+ * @param {string} walletAddress 
+ * @returns userDetails
+ */
 const checkDbForUser = async (walletAddress) => {
     let userId;
 
-    const userCheckResult = await getUserByWalletAddress(walletAddress);
-    console.log(userCheckResult.status);
+    const userCheckQuery = await getUserByWalletAddress(walletAddress);
+    console.log("[DEBUG]", "userCheckResult", userCheckQuery);
 
-    if (userCheckResult.status === "200") {
-        userId = userCheckResult.userId;
-    } else {
-        userId = await addUser(walletAddress);
+    if (userCheckQuery.status === 200) {
+
+        userId = userCheckQuery.data;
+    }
+    else {
+        // Add user
+        const addUserQuery = await addUser(walletAddress);
+
+        if (addUserQuery.status === 200) {
+            // Check DB Again
+            userId = await getUserByWalletAddress(walletAddress).data.userId;
+            console.log("[DEBUG]", "userId", userId);
+        }
+        else {
+            console.log("[ERROR] addUser() didn't work");
+        }
     }
 
-    return await getUserById(userId);
+    return (await getUserById(userId)).data;
 }
 
 
@@ -56,7 +72,10 @@ function MetamaskProvider(props) {
                         setAccount(accounts[0]);
                         _balance = web3.utils.toWei(String(await web3.eth.getBalance(accounts[0])), "wei");
 
-                        setUser(await checkDbForUser(accounts[0]));
+                        const dbUser = await checkDbForUser(accounts[0]);
+                        console.log("user", dbUser);
+
+                        setUser(dbUser);
 
                         setBalance(_balance);
                         setMetamaskConnected(true);

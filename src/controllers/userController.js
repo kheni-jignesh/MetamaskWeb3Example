@@ -8,14 +8,16 @@ const baseUrl = "http://104.248.138.246:8085";
  * @returns {Promise<string | null>} userId
  */
 export async function getUserByWalletAddress(walletAddress) {
-    const data = { walletAddress: walletAddress }
+    try {
+        const response = await axios.get('/getUserIdByWalletAddress/' + walletAddress, {
+            baseURL: baseUrl,
+        });
 
-    const response = await axios.get('/getUserIdByWalletAddress', {
-        baseURL: baseUrl,
-        data: data
-    });
-
-    return response;
+        return response;
+    } catch (err) {
+        console.log(err);
+        return { status: 404 }
+    }
 }
 
 /**
@@ -24,7 +26,7 @@ export async function getUserByWalletAddress(walletAddress) {
  * @returns {Promise<any>} userDetails
  */
 export async function getUserById(id) {
-    const response = await axios.get('/getUserById' + id, {
+    const response = await axios.get('/getUserById/' + id, {
         baseURL: baseUrl
     });
 

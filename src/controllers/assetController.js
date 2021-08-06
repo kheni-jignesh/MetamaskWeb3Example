@@ -27,7 +27,7 @@ export async function addAsset(assetDetails) {
         baseURL: baseUrl
     });
 
-    return response.json();
+    return response;
 }
 
 /**
@@ -47,7 +47,7 @@ export async function addCollection(collectionDetails) {
         baseURL: baseUrl,
     });
 
-    return response.json();
+    return response;
 }
 
 /**
@@ -66,7 +66,7 @@ export async function getAllCollections() {
         baseURL: baseUrl
     });
 
-    return response.json();
+    return response;
 }
 
 /**
@@ -109,7 +109,7 @@ export async function getAllAssets() {
         baseURL: baseUrl
     });
 
-    return response.json();
+    return response;
 }
 
 /**
@@ -126,5 +126,5 @@ export async function getOnSaleAssets() {
         baseURL: baseUrl
     })
 
-    return response.json();
+    return response;
 }
