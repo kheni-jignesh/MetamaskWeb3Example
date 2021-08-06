@@ -24,7 +24,7 @@ export default function Navbar() {
                 metamaskContext.isMetamaskConnected
                     ?
                     <span>
-                        UserID: {metamaskContext.userId} - Balance: {fmtBalance(metamaskContext.balance)}
+                        UserID: {metamaskContext.user.userId} - Balance: {fmtBalance(metamaskContext.balance)}
                     </span>
                     :
                     <button onClick={connectToMetamask}>
