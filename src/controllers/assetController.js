@@ -5,23 +5,23 @@ const baseUrl = "http://104.248.138.246:8085";
 /**
  * Adds an asset to the DB
  * @param {{
- *      nftId: number
  *      creatorId: number,
  *      collectionId: number,
  *      categoryId1: number,
- *      categoryId2: number,
- *      categoryId3: number,
- *      type: string,
+ *      categoryId2: number?,
+ *      categoryId3: number?,
+ *      type: "1" | "2",
  *      numberOfCopies: number,
  *      title: string,
  *      description: string,
- *      royalty: number
+ *      royalty: number?
  * }} assetDetails 
  * 
  * @return {Promise<any>} Asset ID
  */
 export async function addAsset(assetDetails) {
     const data = assetDetails;
+    console.log(data);
 
     const response = await axios.post('/addAsset', data, {
         baseURL: baseUrl
@@ -125,6 +125,22 @@ export async function getOnSaleAssets() {
     const response = await axios.get('/getAllOnSaleAssets', {
         baseURL: baseUrl
     })
+
+    return response;
+}
+
+/**
+ * Gets all categories
+ * @returns {Promise<[{
+ *      categoryId: number,
+ *      name: string,
+ *      position: int
+ * }]>}
+ */
+export async function getAllCategories() {
+    const response = await axios.get('/getAllCategories', {
+        baseURL: baseUrl
+    });
 
     return response;
 }

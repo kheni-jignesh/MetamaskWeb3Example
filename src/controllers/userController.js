@@ -2,8 +2,7 @@ import axios from "axios";
 
 const baseUrl = "http://104.248.138.246:8085";
 
-/**
- * 
+/*
  * @param {string} walletAddress 
  * @returns {Promise<string | null>} userId
  */
@@ -21,7 +20,7 @@ export async function getUserByWalletAddress(walletAddress) {
 }
 
 /**
- * get user details with ID
+ * Gets user details with ID
  * @param {number} id 
  * @returns {Promise<any>} userDetails
  */
@@ -34,7 +33,7 @@ export async function getUserById(id) {
 }
 
 /**
- * add user to DB and retrieve user ID
+ * Adds user to DB and retrieve user ID
  * @param {string} walletAddress 
  * @returns {Promise<any>} userId
  */

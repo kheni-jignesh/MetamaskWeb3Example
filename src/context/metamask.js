@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Web3 from 'web3';
+import { createContract } from '../contract/nftPrimerContract';
 
 import {
     addUser, getUserById, getUserByWalletAddress
@@ -51,6 +52,7 @@ function MetamaskProvider(props) {
     const [account, setAccount] = useState("");
     const [balance, setBalance] = useState("");
     const [user, setUser] = useState("");
+    const [contract, setContract] = useState(null);
     const [isMetamaskConnected, setMetamaskConnected] = useState(false);
     let accounts = "";
     let _balance = "";
@@ -72,9 +74,10 @@ function MetamaskProvider(props) {
                         setAccount(accounts[0]);
                         _balance = web3.utils.toWei(String(await web3.eth.getBalance(accounts[0])), "wei");
 
-                        const dbUser = await checkDbForUser(accounts[0]);
-                        console.log("user", dbUser);
+                        const ctc = createContract(web3);
+                        setContract(ctc);
 
+                        const dbUser = await checkDbForUser(accounts[0]);
                         setUser(dbUser);
 
                         setBalance(_balance);
@@ -98,7 +101,7 @@ function MetamaskProvider(props) {
     }
 
     return (
-        <MetamaskContext.Provider value={{ account, balance, user, isMetamaskConnected, connect }}>
+        <MetamaskContext.Provider value={{ account, balance, user, contract, isMetamaskConnected, connect }}>
             {props.children}
         </MetamaskContext.Provider>
     )

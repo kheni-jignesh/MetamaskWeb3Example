@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import AddAsset from "../AddAsset";
 
 import {
-    getAllCollections, getOnSaleAssets
+    getAllCategories,
+    getAllCollections,
+    getOnSaleAssets,
 } from "../../controllers/assetController";
 import AddCollection from "../AddCollection";
 
 export default function AssetsPage() {
+    const [categories, setCategories] = useState([]);
     const [collections, setCollections] = useState([]);
-    const [assets, setAssets] = useState([])
+    const [onSaleAssets, setOnSaleAssets] = useState([])
 
     const [showAddAsset, setShowAddAsset] = useState(false);
     const hAddAsset = () => setShowAddAsset(!showAddAsset);
@@ -17,6 +20,17 @@ export default function AssetsPage() {
     const hAddCollection = () => setShowAddCollection(!showAddCollection);
 
     useEffect(() => {
+        getAllCategories().then(
+            /* Resolve */
+            (result) => {
+                setCategories(result.data);
+            },
+            /* Reject */
+            (error) => {
+                console.log(error);
+            }
+        );
+
         getAllCollections().then(
             /* Resolve */
             (result) => {
@@ -30,7 +44,7 @@ export default function AssetsPage() {
 
         getOnSaleAssets().then(
             (result) => {
-                setAssets(result.data);
+                setOnSaleAssets(result.data);
             },
             (error) => {
                 console.log(error);
@@ -40,6 +54,21 @@ export default function AssetsPage() {
 
     return (
         <>
+            <h2>Categories: </h2>
+            {
+                categories.length > 0
+                    ? categories.map((category) => (
+                        <div key={category.categoryId}>
+                            <h3>[{category.categoryId}] {category.name} - {category.position}</h3>
+                        </div>
+                    ))
+                    : (
+                        <div>
+                            <p>None</p>
+                        </div>
+                    )
+            }
+
             <h2>Collections: </h2>
             {
                 collections.length > 0
@@ -58,8 +87,8 @@ export default function AssetsPage() {
 
             <h2>Assets On Sale: </h2>
             {
-                assets.length > 0
-                    ? assets.map((asset) => (
+                onSaleAssets.length > 0
+                    ? onSaleAssets.map((asset) => (
                         <div key={asset.assetId}>
                             <h3>[{asset.assetId}] {asset.title}</h3>
                             <small>{asset.previewLink}</small>
