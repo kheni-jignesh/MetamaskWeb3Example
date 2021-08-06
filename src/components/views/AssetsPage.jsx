@@ -20,7 +20,7 @@ export default function AssetsPage() {
         getAllCollections().then(
             /* Resolve */
             (result) => {
-                setCollections(result);
+                setCollections(result.data);
             },
             /* Reject */
             (error) => {
@@ -30,7 +30,7 @@ export default function AssetsPage() {
 
         getOnSaleAssets().then(
             (result) => {
-                setAssets(result);
+                setAssets(result.data);
             },
             (error) => {
                 console.log(error);
