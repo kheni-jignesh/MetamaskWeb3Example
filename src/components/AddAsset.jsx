@@ -59,7 +59,7 @@ export default function AssetForm() {
             };
 
             const addAssetQuery = await addAsset(queryDetails);
-            console.log("[DEBUG]", "resolveAddAsset called", queryDetails, addAssetQuery);
+            console.log("[DEBUG]", "resolveAddAsset called", addAssetQuery);
 
             setWaitPrompt(true);
 

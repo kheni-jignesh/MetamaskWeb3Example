@@ -23,7 +23,7 @@ const checkDbForUser = async (walletAddress) => {
 
         if (addUserQuery) userId = (await getUserByWalletAddress(walletAddress)).response;
         else {
-            console.error("[ERROR] Couldn't create new user work");
+            console.error("[ERROR] Couldn't create new user");
             return null;
         }
     }
