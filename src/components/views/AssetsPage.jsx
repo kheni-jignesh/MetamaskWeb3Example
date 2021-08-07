@@ -23,7 +23,7 @@ export default function AssetsPage() {
         getAllCategories().then(
             /* Resolve */
             (result) => {
-                setCategories(result.data);
+                setCategories(result.response);
             },
             /* Reject */
             (error) => {
@@ -34,7 +34,7 @@ export default function AssetsPage() {
         getAllCollections().then(
             /* Resolve */
             (result) => {
-                setCollections(result.data);
+                setCollections(result.response);
             },
             /* Reject */
             (error) => {
@@ -44,7 +44,7 @@ export default function AssetsPage() {
 
         getOnSaleAssets().then(
             (result) => {
-                setOnSaleAssets(result.data);
+                setOnSaleAssets(result.response);
             },
             (error) => {
                 console.log(error);
@@ -75,7 +75,7 @@ export default function AssetsPage() {
                     ? collections.map((collection) => (
                         <div key={collection.collectionId}>
                             <h3>[{collection.collectionId}] {collection.collectionName}</h3>
-                            <small>{collection.description}</small>
+                            <small>{collection.description && collection.description}</small>
                         </div>
                     ))
                     : (

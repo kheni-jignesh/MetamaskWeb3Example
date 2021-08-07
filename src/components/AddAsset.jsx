@@ -42,23 +42,34 @@ export default function AssetForm() {
 
     const resolveAddAsset = async () => {
         try {
-            const addAssetQuery = await addAsset({
-                creatorId, collectionId, categoryId1, categoryId2, categoryId3,
-                type, numberOfCopies, title, description, royalty
-            });
+            const queryDetails = {
+                creatorId, collectionId,
+                categoryId1, categoryId2, categoryId3,
+                type, numberOfCopies, title, description, royalty,
+                "fileLink": null,      // "/fileLink49"
+                "previewLink": null,    // "/previewLink49"
+                "provider": null,       // "provider49",
+                "size": null,           // 1000,
+                "payload": null,        // "1"
+            };
+
+            const addAssetQuery = await addAsset(queryDetails);
             console.log("[DEBUG]", "resolveAddAsset called", addAssetQuery);
 
             setWaitPrompt(true);
 
-            await metamaskContext.contract.methods.safeMint(addAssetQuery.data).send({
+            await metamaskContext.contract.methods.safeMint(addAssetQuery.id).send({
                 from: metamaskContext.user.walletAddress
             });
 
             setWaitPrompt(false);
-            setMessage("Asset with ID " + addAssetQuery.data + " is successfully minted");
+            setMessage("Asset with ID " + addAssetQuery.id + " is successfully minted");
         }
         catch (err) {
             console.log(err);
+
+            setWaitPrompt(false);
+            setMessage("Asset mint failed");
         }
     };
 
@@ -140,7 +151,7 @@ function AssetField({ name, value, handler, type }) {
         <div style={{ margin: "10px" }}>
             <label htmlFor={name}>{name}</label>
             <br />
-            <input name={name} type={type} value={value} onChange={handler} />
+            <input name={name} type={type} value={value ? value : ""} onChange={handler} />
         </div>
     )
 }

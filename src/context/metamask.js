@@ -10,33 +10,28 @@ const prefNetwork = { id: 4, name: "Rinkeby" };
 
 /**
  * @param {string} walletAddress 
- * @returns userDetails
+ * @returns {any?} userDetails
  */
 const checkDbForUser = async (walletAddress) => {
     let userId;
 
     const userCheckQuery = await getUserByWalletAddress(walletAddress);
-    console.log("[DEBUG]", "userCheckResult", userCheckQuery);
 
-    if (userCheckQuery.status === 200) {
-
-        userId = userCheckQuery.data;
-    }
+    if (userCheckQuery) userId = userCheckQuery.response;
     else {
-        // Add user
         const addUserQuery = await addUser(walletAddress);
 
-        if (addUserQuery.status === 200) {
-            // Check DB Again
-            userId = await getUserByWalletAddress(walletAddress).data.userId;
-            console.log("[DEBUG]", "userId", userId);
-        }
+        if (addUserQuery) userId = (await getUserByWalletAddress(walletAddress)).response;
         else {
-            console.log("[ERROR] addUser() didn't work");
+            console.error("[ERROR] Couldn't create new user work");
+            return null;
         }
     }
 
-    return (await getUserById(userId)).data;
+    console.log("[DEBUG]", "User ID:", userId);
+
+    const getUserQuery = await getUserById(userId);
+    return getUserQuery ? getUserQuery.response : null;
 }
 
 
