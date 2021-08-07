@@ -50,7 +50,10 @@ export async function addAsset(assetDetails) {
  *      description: string,
  *      logoLink: string
  * }} collectionDetails 
- * @returns {Promise<number>} resultCode
+ * @returns {Promise<{
+ *  resultCode: number,
+ *  id:number}?
+ * >} resultCode
  */
 export async function addCollection(collectionDetails) {
     const data = collectionDetails;

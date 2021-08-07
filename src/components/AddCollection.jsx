@@ -14,23 +14,27 @@ export default function AddCollection() {
     const [collectionName, setCollectionName] = useState(defaults.collectionName);
     const [description, setDescription] = useState(defaults.description);
     const [logoLink, setLogoLink] = useState(defaults.logoLink);
+    const [message, setMessage] = useState("");
 
     const handleFormData = (fx) => (e) => {
         fx(e.target.value)
     }
 
     const resolveAddCollection = async () => {
-        await addCollection({
+        const addCollectionQuery = await addCollection({
             userId: user.userId,
             collectionName: collectionName,
             description: description,
             logoLink: logoLink
         });
         console.log("[DEBUG]", "resolveAddCollection called");
+
+        setMessage("Created collection with ID: " + addCollectionQuery.id + " successfully.")
     }
 
     return (
         <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+            {message && <h3>{message}</h3>}
             <CollectionField name="Collection Name" value={collectionName} handler={handleFormData(setCollectionName)} />
             <CollectionField name="Description" value={description} handler={handleFormData(setDescription)} />
             <CollectionField name="Logo Link" value={logoLink} handler={handleFormData(setLogoLink)} />
