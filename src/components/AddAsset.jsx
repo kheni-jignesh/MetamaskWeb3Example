@@ -4,48 +4,53 @@ import { addAsset } from "../controllers/assetController";
 
 /**
  * 
- * @dev Şu an sadece test amaçlı bu şekilde,
- * son halinde:
- * collectionId seçili collection'dan
- * creatorId userId'den,
- * categoryId1 & 2 & 3  seçili kategorilerden gelecek
- * 
- * ? nftId ve royalty nasıl seçilecek bilmiyorum
+ * @dev Only for test purposes
+ *  In the production:
+ *  it should take collectionId from selected collection
+ *  and categoryId #1 & #2 & #3 from selected categories
  */
 
 export default function AssetForm() {
     const metamaskContext = useContext(MetamaskContext);
 
-    const defaults = {
-        nftId: null, creatorId: null, collectionId: null,
-        categoryId1: null, categoryId2: null, categoryId3: null,
-        type: null, numberOfCopies: null, title: null,
-        description: null, royalty: null,
+    const fields = {
+        collectionId: { name: "Collection ID", type: "number", default: null },
+        categoryId1: { name: "Category ID #1", type: "number", default: null },
+        categoryId2: { name: "Category ID #2", type: "number", default: null },
+        categoryId3: { name: "Category ID #3", type: "number", default: null },
+        type: { name: "Type", type: "string", default: null },
+        numberOfCopies: { name: "Number Of Copies", type: "number", default: null },
+        title: { name: "Title", type: "string", default: null },
+        description: { name: "Description", type: "string", default: null },
+        royalty: { name: "Royalty", type: "number", default: null },
     };
+
+    const defaults = Object.keys(fields).reduce((p, f) => {
+        const copy = Object.assign({}, p);
+        copy[f] = fields[f].default;
+        return copy;
+    }, {});
 
     const creatorId = metamaskContext.user.userId;
 
-    const [collectionId, setCollectionId] = useState(defaults.collectionId);
-    const [categoryId1, setCategoryId1] = useState(defaults.categoryId1);
-    const [categoryId2, setCategoryId2] = useState(defaults.categoryId2);
-    const [categoryId3, setCategoryId3] = useState(defaults.categoryId3);
-    const [type, setType] = useState(defaults.type);
-    const [numberOfCopies, setNumberOfCopies] = useState(defaults.numberOfCopies);
-    const [title, setTitle] = useState(defaults.title);
-    const [description, setDescription] = useState(defaults.description);
-    const [royalty, setRoyalty] = useState(defaults.royalty);
+    const [formState, setFormState] = useState(defaults);
+
+    const updateForm = (field) => (e) => {
+        setFormState(prevState => {
+            const prevStateCopy = Object.assign({}, prevState);
+            prevStateCopy[field] = e.target.value;
+            return prevStateCopy;
+        });
+    }
 
     const [waitPrompt, setWaitPrompt] = useState(false);
     const [message, setMessage] = useState("");
 
-    const handleFormData = (fx) => (e) => fx(e.target.value);
-
     const resolveAddAsset = async () => {
         try {
             const queryDetails = {
-                creatorId, collectionId,
-                categoryId1, categoryId2, categoryId3,
-                type, numberOfCopies, title, description, royalty,
+                creatorId,
+                ...formState,
                 "fileLink": null,      // "/fileLink49"
                 "previewLink": null,    // "/previewLink49"
                 "provider": null,       // "provider49",
@@ -54,7 +59,7 @@ export default function AssetForm() {
             };
 
             const addAssetQuery = await addAsset(queryDetails);
-            console.log("[DEBUG]", "resolveAddAsset called", addAssetQuery);
+            console.log("[DEBUG]", "resolveAddAsset called", queryDetails, addAssetQuery);
 
             setWaitPrompt(true);
 
@@ -74,14 +79,17 @@ export default function AssetForm() {
     };
 
     const randomFill = () => {
-        setCollectionId(1);
-        setCategoryId1(1);
-        setCategoryId2(2);
-        setType("1");
-        setNumberOfCopies(1);
-        setTitle("Example title " + Math.ceil(Math.random() * 10000));
-        setDescription("Example description " + Math.ceil(Math.random() * 10000));
-        setRoyalty(5);
+        setFormState({
+            collectionId: Math.ceil(Math.random() * 3),
+            categoryId1: Math.ceil(Math.random() * 3),
+            categoryId2: Math.ceil(Math.random() * 3),
+            categoryId3: Math.ceil(Math.random() * 3),
+            type: "1",
+            numberOfCopies: 1,
+            title: "Example title " + Math.ceil(Math.random() * 10000),
+            description: "Example description " + Math.ceil(Math.random() * 10000),
+            royalty: Math.floor(Math.random() * 3)
+        })
     }
 
     return waitPrompt
@@ -96,50 +104,15 @@ export default function AssetForm() {
 
                 {message && <h3>{message}</h3>}
 
-                <AssetField name="Collection ID"
-                    type="number"
-                    value={collectionId}
-                    handler={handleFormData(setCollectionId)} />
-
-                <AssetField name="Category ID 1"
-                    type="number"
-                    value={categoryId1}
-                    handler={handleFormData(setCategoryId1)} />
-
-                <AssetField name="Category ID 2"
-                    type="number"
-                    value={categoryId2}
-                    handler={handleFormData(setCategoryId2)} />
-
-                <AssetField name="Category ID 3"
-                    type="number"
-                    value={categoryId3}
-                    handler={handleFormData(setCategoryId3)} />
-
-                <AssetField name="Type"
-                    type="text"
-                    value={type}
-                    handler={handleFormData(setType)} />
-
-                <AssetField name="Number of Copies"
-                    type="number"
-                    value={numberOfCopies}
-                    handler={handleFormData(setNumberOfCopies)} />
-
-                <AssetField name="Title"
-                    type="text"
-                    value={title}
-                    handler={handleFormData(setTitle)} />
-
-                <AssetField name="Description"
-                    type="text"
-                    value={description}
-                    handler={handleFormData(setDescription)} />
-
-                <AssetField name="Royalty"
-                    type="number"
-                    value={royalty}
-                    handler={handleFormData(setRoyalty)} />
+                {
+                    Object.keys(defaults).map(f =>
+                        <AssetField
+                            key={f}
+                            name={fields[f].name}
+                            type={fields[f].default}
+                            value={formState[f]}
+                            handler={updateForm(f)} />)
+                }
 
                 <button onClick={resolveAddAsset}>Create Asset</button>
             </div>
