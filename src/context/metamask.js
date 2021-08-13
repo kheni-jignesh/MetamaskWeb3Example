@@ -34,7 +34,6 @@ const checkDbForUser = async (walletAddress) => {
     return getUserQuery ? getUserQuery.response : null;
 }
 
-
 const MetamaskContext = React.createContext();
 
 /**
@@ -95,8 +94,27 @@ function MetamaskProvider(props) {
         }
     }
 
+    /**
+     * Send specified  to NFTPrime address
+     * @param {number} amt
+     * 
+     * @return The transaction
+     */
+    async function makePayment(amt) {
+        if (!account) return;
+
+        if (!web3)
+            await connect();
+
+        // TODO: Get from backend
+        const toAddress = "0x7020Eb349A97f15BeDA19442d12145702cA15781"; // Address of the recipient
+        const amountToSend = web3.utils.toWei(amt, "ether"); // Convert to wei value
+        var send = web3.eth.sendTransaction({ from: account, to: toAddress, value: amountToSend });
+        return send;
+    }
+
     return (
-        <MetamaskContext.Provider value={{ account, balance, user, contract, isMetamaskConnected, connect }}>
+        <MetamaskContext.Provider value={{ account, balance, user, contract, isMetamaskConnected, connect, makePayment }}>
             {props.children}
         </MetamaskContext.Provider>
     )

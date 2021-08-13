@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddAsset from "../AddAsset";
 
 import {
@@ -7,8 +7,11 @@ import {
     getOnSaleAssets,
 } from "../../controllers/assetController";
 import AddCollection from "../AddCollection";
+import MetamaskContext from "../../context/metamask";
 
 export default function AssetsPage() {
+    const metamaskContext = useContext(MetamaskContext);
+
     const [categories, setCategories] = useState([]);
     const [collections, setCollections] = useState([]);
     const [onSaleAssets, setOnSaleAssets] = useState([])
@@ -18,6 +21,10 @@ export default function AssetsPage() {
 
     const [showAddCollection, setShowAddCollection] = useState(false);
     const hAddCollection = () => setShowAddCollection(!showAddCollection);
+
+    const [payAmount, setPayAmount] = useState(0);
+    const handlePayAmt = (e) => setPayAmount(e.target.value);
+    const resolvePayAmount = () => metamaskContext.makePayment(payAmount);
 
     useEffect(() => {
         getAllCategories().then(
@@ -101,6 +108,11 @@ export default function AssetsPage() {
                     )
             }
 
+            <br />
+
+            <input type="number" placeholder="Amount" value={payAmount} onChange={handlePayAmt} />
+            <br />
+            <button onClick={resolvePayAmount}>Test Send Payment</button>
             <br />
 
             <button onClick={hAddCollection}>{showAddCollection ? "Close Modal" : "Add Collection"}</button>
