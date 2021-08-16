@@ -1,0 +1,28 @@
+// hero auctions
+export const TOP_HERO_AUCTIONS = 'TOP_HERO_AUCTIONS';
+export const USERS_ERROR = 'USERS_ERROR';
+// Top auctions
+export const TOP_AUCTIONS = 'TOP_AUCTIONS';
+export const TOP_ARTWORKS = 'TOP_ARTWORKS';
+export const TOP_CREATORS = 'TOP_CREATORS';
+export const TOP_ALL_CATEGORIES = 'TOP_ALL_CATEGORIES';
+
+export const GET_USERS = 'GET_USERS';
+
+
+// explorer
+export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
+export const GET_ALL_USER_EXPLORER = 'GET_ALL_USER_EXPLORER';
+export const GET_ALL_ITEM_EXPLORER = 'GET_ALL_ITEM_EXPLORER';
+
+// Auctions
+export const GET_LIVE_AUCTIONS = 'GET_LIVE_AUCTIONS';
+
+
+// myitem  getSoldAssetsOfUser getAllAssetsOwnedByUser
+export const GET_ALL_CREATED_ITEMS = 'GET_ALL_CREATED_ITEMS';
+export const GET_ITEM_PROFILE_INFO = 'GET_ITEM_PROFILE_INFO';
+export const GET_ITEM_ONSALE_ASSETS = 'GET_ITEM_ONSALE_ASSETS';
+export const GET_ITEM_SOLD_ASSETS = 'GET_ITEM_SOLD_ASSETS';
+export const GET_ITEM_OWNED_ASSETS = 'GET_ITEM_OWNED_ASSETS';
+export const GET_ITEM_ACTIVITIES = 'GET_ITEM_ACTIVITIES';

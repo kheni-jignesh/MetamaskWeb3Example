@@ -15,10 +15,11 @@ const checkQuery = (query, name) => { if (query.data.resultCode === 0) throw new
  */
 export async function getUserByWalletAddress(walletAddress) {
     try {
-        const query = await axios.get('/getUserIdByWalletAddress/' + walletAddress, {
-            baseURL: baseUrl,
-        });
-
+        let data = {walletAddress:walletAddress}
+        const query = await axios.post('/getUserIdByWalletAddress/' , data, {baseURL: baseUrl,}).then(response=>{
+            console.log("response",response)
+        }
+        );
         checkQuery(query, "getUserByWalletAddress");
         return query.data;
     }

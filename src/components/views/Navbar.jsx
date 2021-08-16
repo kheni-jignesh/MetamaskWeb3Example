@@ -24,6 +24,7 @@ export default function Navbar() {
                 metamaskContext.isMetamaskConnected
                     ?
                     <span>
+                        {console.log("metamaskContext.user.userId",metamaskContext)}
                         UserID: {metamaskContext.user.userId} - Balance: {fmtBalance(metamaskContext.balance)}
                     </span>
                     :
